@@ -209,9 +209,9 @@ const RightSection = () => {
     console.log("clean image: ",allMessages);
 
     const handleEditClick = (text:string) => {
-        console.log("chetan loahnio");
+       // console.log("chetan loahnio");
         setEditMode(true);
-        setOriginalText(text); // Assuming msg contains the user's message
+        setOriginalText(text); // Assuming msg contains the user' message
         setEditText(text);
     };
     console.log("object:",message);
