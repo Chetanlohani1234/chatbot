@@ -189,6 +189,13 @@
     color: goldenrod;
 }
 
+/* .messagesContainer {
+    height: 400px; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px; 
+} */
+
 /* Apply animation to the <p> element */
 .typewriter p {
     overflow: hidden;

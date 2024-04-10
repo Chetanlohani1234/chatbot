@@ -16,6 +16,8 @@ import { Stream } from 'stream';
 //const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API
 const API_URL = 'http://13.234.60.30/api/generate';
 
+
+
 // console.log(API_KEY)
 const RightSection = () => {
     const trainingPrompt = [
@@ -69,6 +71,9 @@ const RightSection = () => {
     const [editMode, setEditMode] = useState(false);
     const [editText, setEditText] = useState('');
     const [originalText, setOriginalText] = useState('');
+
+    const [editedText, setEditedText] = useState(''); // State to hold the edited text
+    const [editIndex, setEditIndex] = useState(-1); 
 
 
 
@@ -190,10 +195,37 @@ const RightSection = () => {
                 {
                     role: 'model',
                     //parts: [{ text: concatenatedResponse.trim() }],
-                    parts: [{ text: concatenatedResponse}],
+                    //parts: [{ text: concatenatedResponse}],
+                    parts: [{ text: ''}],
+
 
                 },
             ]);
+
+            // Split the concatenated response into an array of characters
+            const responseCharacters = concatenatedResponse.split('');
+
+            // Loop through each character with a delay between each one
+            for (let i = 0; i < responseCharacters.length; i++) {
+                setTimeout(() => {
+                    // Update the last message in allMessages with the next character
+                    setAllMessages(prevMessages => [
+                        ...prevMessages.slice(0, -1), // keep previous messages unchanged
+                        {
+                            ...prevMessages[prevMessages.length - 1], // keep the rest of the last message unchanged
+                            parts: [{ text: prevMessages[prevMessages.length - 1].parts[0].text + responseCharacters[i] }], // append the next character to the existing text
+                        },
+                    ]);
+                }, i * 10); // Change the delay as needed (100 milliseconds in this example)
+            }
+
+                // After displaying all characters, update the state to mark message as fully sent
+                setTimeout(() => {
+                    setIsSent(true);
+                    setIsTyping(false);
+                    setMessage('');
+                    setFile('');
+                }, concatenatedResponse.length * 10); // Wait until all characters are displayed before marking as fully sent
     
             setIsSent(true);
             setIsTyping(false);
@@ -206,13 +238,74 @@ const RightSection = () => {
     };
 
     
-    console.log("clean image: ",allMessages);
+    console.log("All image: ",allMessages);
 
-    const handleEditClick = (text:string) => {
-       // console.log("chetan loahnio");
-        setEditMode(true);
-        setOriginalText(text); // Assuming msg contains the user' message
-        setEditText(text);
+    // const handleEditClick = (text:string) => {
+    //    // console.log("chetan loahnio");
+    //     setEditMode(true);
+    //     setOriginalText(text); // Assuming msg contains the user' message
+    //     setEditText(text);
+    // };
+
+    const handleEditClick = (text: string, index: number) => {
+        // Set the original text to be edited
+        setEditedText(text);
+        // Set the index of the message being edited
+        setEditIndex(index);
+    };
+
+    // const handleSaveEdit = () => {
+    //     // Update the text in the message with the edited text
+    //     setAllMessages(prevMessages => {
+    //         const updatedMessages = [...prevMessages];
+    //         updatedMessages[editIndex].parts[0].text = editedText;
+    //         return updatedMessages;
+    //     });
+    //     // Clear the edited text and reset the edit index
+    //     setEditedText('');
+    //     setEditIndex(-1);
+    // };
+
+    const handleSaveEdit = async () => {
+        try {
+            // Send an API request with the edited message
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    model: 'mistral',
+                    prompt: editedText, // Send the edited text as the prompt
+                    stream: true,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            // Update the text in the message with the edited text
+            setAllMessages(prevMessages => {
+                const updatedMessages = [...prevMessages];
+                updatedMessages[editIndex].parts[0].text = editedText;
+                return updatedMessages;
+            });
+            // Clear the edited text and reset the edit index
+            setEditedText('');
+            setEditIndex(-1);
+
+            // Handle the response as needed
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+
+    const handleCancelEdit = () => {
+        // Clear the edited text and reset the edit index
+        setEditedText('');
+        setEditIndex(-1);
     };
     console.log("object:",message);
 
@@ -239,12 +332,40 @@ const RightSection = () => {
                                     <Image src={msg.role === 'user' ? nouserlogo : chatgptlogo2} width={50} height={50} alt="" />
                                     <div className={`${styles.details} typewriter`}>
                                         <h2>{msg.role === 'user' ? 'You' : 'CHATGPT Bot'}</h2>
-                                        <p>{msg.parts[0].text}</p>
+                                        {/* <p>{msg.parts[0].text}</p> */}
+                                        {/* <p>{msg.parts[1].text}</p> */}
+                                        <p>
+                            {editIndex === index ? (
+                                <input
+                                style={{
+                                    backgroundColor: 'transparent',
+                                    border: 'none',
+                                    outline: 'none',
+                                    color: 'white',
+                                    padding: '0',
+                                    fontSize: '1rem',
+                                    fontFamily: 'inherit',
+                                    width: '100%',
+                                    boxSizing: 'border-box',
+                                    lineHeight: '1.5',
+                                    resize: 'none', // Prevent resizing
+                                    overflow: 'hidden',
+                                    display: 'inline', // Make it inline
+                                }}
+                                    type="text"
+                                    value={editedText}
+                                    onChange={e => setEditedText(e.target.value)}
+
+                                />
+                            ) : (
+                                msg.parts[0].text
+                            )}
+                        </p>
                                        
                                         {msg.role === 'user' && (
                                             <div className={styles.userIcon} >
                                                 <Image 
-                                                  onClick={() => handleEditClick(msg.parts[0].text)}
+                                                  onClick={() => handleEditClick(msg.parts[0].text,index)}
                                                     src={editlogo} // Set user icon source
                                                     width={50} 
                                                     height={50} 
@@ -252,6 +373,13 @@ const RightSection = () => {
                                                 />
                                             </div>
                                         )}
+ 
+                               {editIndex === index && (
+                                    <div>
+                                        <button onClick={handleSaveEdit}>Save</button>
+                                        <button onClick={handleCancelEdit}>Cancel</button>
+                                    </div>
+                                )}
 
                                     {/* <input 
                                         type="text" 
