@@ -43,14 +43,14 @@ const LeftSection = () => {
                 </svg>
 
             </div>
-            <div className={styles.allChats}>
+            {/* <div className={styles.allChats}>
                 {allChats.map(chat => (
                     <div key={chat.id} className={styles.chat}>
                         <p className={styles.text1}>{chat.chatName}</p>
 
                     </div>
                 ))}
-            </div>
+            </div> */}
             <div className={styles.newChat}>
                 <div>
                     <Image src={nouserlogo} alt="ChatGPT" width={50} height={50} />
