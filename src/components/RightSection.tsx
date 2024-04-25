@@ -14,7 +14,7 @@ import { Stream } from 'stream';
 
 
 //const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API
-const API_URL = 'http://13.234.60.30/api/generate';
+const API_URL = 'https://13.234.60.30/api/generate';
 
 
 
