@@ -1,5 +1,5 @@
 .leftSection {
-    background-color: var(--col1);
+    background-color: white;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -14,7 +14,7 @@
 }
 
 .text1{
-    color: var(--textcol);
+    color: black;
     font-size: 20px;
 }
 
@@ -29,7 +29,7 @@
 .newChat svg {
     width: 30px;
     height: 30px;
-    color: var(--textcol);
+    color: black;
 }
 
 .allChats{

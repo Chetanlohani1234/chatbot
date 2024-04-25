@@ -10,23 +10,23 @@ const LeftSection = () => {
     const allChats = [
         {
             id: 1,
-            chatName: 'This is sample Chat 1'
+            //chatName: 'This is sample Chat 1'
         },
         {
             id: 2,
-            chatName: 'This is sample Chat 2'
+            //chatName: 'This is sample Chat 2'
         },
         {
             id: 3,
-            chatName: 'This is sample Chat 3'
+            //chatName: 'This is sample Chat 3'
         },
         {
             id: 4,
-            chatName: 'This is sample Chat 4'
+            //chatName: 'This is sample Chat 4'
         },
         {
             id: 5,
-            chatName: 'This is sample Chat 5'
+            //chatName: 'This is sample Chat 5'
         }
     ]
     return (
@@ -34,7 +34,7 @@ const LeftSection = () => {
             <div className={styles.newChat}>
                 <div>
                     <Image src={chatgptlogo} alt="ChatGPT" width={50} height={50} />
-                    <p className={styles.text1}>CHATGPT BOT</p>
+                    <p className={styles.text1}>rootAI BOT</p>
 
                 </div>
 

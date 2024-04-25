@@ -14,7 +14,7 @@ import { Stream } from 'stream';
 
 
 //const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API
-const API_URL = 'https://13.234.60.30/api/generate';
+const API_URL = 'http://13.234.60.30/api/generate';
 
 
 
@@ -238,7 +238,7 @@ const RightSection = () => {
     };
 
     
-    console.log("All image: ",allMessages);
+   // console.log("All image: ",allMessages);
 
     // const handleEditClick = (text:string) => {
     //    // console.log("chetan loahnio");
@@ -266,40 +266,43 @@ const RightSection = () => {
     //     setEditIndex(-1);
     // };
 
-    const handleSaveEdit = async () => {
-        try {
-            // Send an API request with the edited message
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    model: 'mistral',
-                    prompt: editedText, // Send the edited text as the prompt
-                    stream: true,
-                }),
-            });
+        const handleSaveEdit = async () => {
+            try {
+                // Send an API request with the edited message
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: 'mistral',
+                        prompt: editedText, // Send the edited text as the prompt
+                        stream: true,
+                    }),
+                });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                // Update the text in the message with the edited text
+                setAllMessages(prevMessages => {
+                    const updatedMessages = [...prevMessages];
+                    updatedMessages[editIndex].parts[0].text = editedText;
+                    return updatedMessages;
+                    //console.log("message updated : ",updatedMessages);
+                });
+                console.log("updated message : ",allMessages);
+                // Clear the edited text and reset the edit index
+                setEditedText('');
+                setEditIndex(-1);
+
+                // Handle the response as needed
+            } catch (error) {
+                console.error('Error:', error);
             }
+        };
 
-            // Update the text in the message with the edited text
-            setAllMessages(prevMessages => {
-                const updatedMessages = [...prevMessages];
-                updatedMessages[editIndex].parts[0].text = editedText;
-                return updatedMessages;
-            });
-            // Clear the edited text and reset the edit index
-            setEditedText('');
-            setEditIndex(-1);
-
-            // Handle the response as needed
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
 
 
     const handleCancelEdit = () => {
@@ -314,7 +317,7 @@ const RightSection = () => {
             {/* <Image src={schoolbg} alt="" className={styles.schoolbg} /> */}
             <div className={styles.rightin}>
                 <div className={styles.chatgptversion}>
-                    <p className={styles.text1}>Chat</p>
+                    <p className={styles.text1}>rootAI Chat</p>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg>
@@ -361,7 +364,7 @@ const RightSection = () => {
                                 msg.parts[0].text
                             )}
                         </p>
-                                       
+{/*                                        
                                         {msg.role === 'user' && (
                                             <div className={styles.userIcon} >
                                                 <Image 
@@ -372,11 +375,12 @@ const RightSection = () => {
                                                     alt="User Icon" 
                                                 />
                                             </div>
-                                        )}
+                                        )} */}
  
                                {editIndex === index && (
                                     <div>
                                         <button onClick={handleSaveEdit}>Save</button>
+                                        {/* <button onClick={sendMessage}>save</button> */}
                                         <button onClick={handleCancelEdit}>Cancel</button>
                                     </div>
                                 )}
@@ -422,7 +426,7 @@ const RightSection = () => {
 
                 <div className={styles.bottomsection}>
                     <div className={styles.messagebar}>
-                        <input type='text' placeholder='Message CHATGPT Bot...'
+                        <input type='text' placeholder='Message rootAI Bot...'
                             onChange={(e) => setMessage(e.target.value)}
                             value={message}
                         />
@@ -462,7 +466,7 @@ const RightSection = () => {
                         }
 
                     </div>
-                    <p>CHATGPT BOT can make mistakes. Consider checking important information.</p>
+                    <p>rootAI BOT can make mistakes. Consider checking important information.</p>
 
                 </div>
             </div>
