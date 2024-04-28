@@ -14,7 +14,8 @@ import { Stream } from 'stream';
 
 
 //const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API
-const API_URL = 'http://13.234.60.30/api/generate';
+//const API_URL = 'http://13.234.60.30/api/generate';
+const API_URL =  'http://llm.mindmillers.com/api/generate';  
 
 
 
@@ -317,7 +318,7 @@ const RightSection = () => {
             {/* <Image src={schoolbg} alt="" className={styles.schoolbg} /> */}
             <div className={styles.rightin}>
                 <div className={styles.chatgptversion}>
-                    <p className={styles.text1}>rootAI Chat</p>
+                    <p className={styles.text1}>rootAI </p>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg>
