@@ -267,42 +267,42 @@ const RightSection = () => {
     //     setEditIndex(-1);
     // };
 
-        // const handleSaveEdit = async () => {
-        //     try {
-        //         // Send an API request with the edited message
-        //         const response = await fetch(API_URL, {
-        //             method: 'POST',
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //             },
-        //             body: JSON.stringify({
-        //                 model: 'mistral',
-        //                 prompt: editedText, // Send the edited text as the prompt
-        //                 stream: true,
-        //             }),
-        //         });
+        const handleSaveEdit = async () => {
+            try {
+                // Send an API request with the edited message
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: 'mistral',
+                        prompt: editedText, // Send the edited text as the prompt
+                        stream: true,
+                    }),
+                });
 
-        //         if (!response.ok) {
-        //             throw new Error('Network response was not ok');
-        //         }
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
 
-        //         // Update the text in the message with the edited text
-        //         setAllMessages(prevMessages => {
-        //             const updatedMessages = [...prevMessages];
-        //             updatedMessages[editIndex].parts[0].text = editedText;
-        //             return updatedMessages;
-        //             //console.log("message updated : ",updatedMessages);
-        //         });
-        //         console.log("updated message : ",allMessages);
-        //         // Clear the edited text and reset the edit index
-        //         setEditedText('');
-        //         setEditIndex(-1);
+                // Update the text in the message with the edited text
+                setAllMessages(prevMessages => {
+                    const updatedMessages = [...prevMessages];
+                    updatedMessages[editIndex].parts[0].text = editedText;
+                    return updatedMessages;
+                    //console.log("message updated : ",updatedMessages);
+                });
+                console.log("updated message : ",allMessages);
+                // Clear the edited text and reset the edit index
+                setEditedText('');
+                setEditIndex(-1);
 
-        //         // Handle the response as needed
-        //     } catch (error) {
-        //         console.error('Error:', error);
-        //     }
-        // };
+                // Handle the response as needed
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
 
 
 
