@@ -33,7 +33,7 @@ const LeftSection = () => {
         <div className={styles.leftSection}>
             <div className={styles.newChat}>
                 <div>
-                    <Image src={chatgptlogo} alt="ChatGPT" width={50} height={50} />
+                    {/* <Image src={chatgptlogo} alt="ChatGPT" width={50} height={50} /> */}
                     <p className={styles.text1}>rootAI BOT</p>
 
                 </div>

@@ -403,7 +403,7 @@ const RightSection = () => {
                                 {/* <Image src={chatgptlogo} alt="chatgpt" height={70} width={70} /> */}
                                 <h1>How can I help you today?</h1>
                             </div>
-                            <div className={styles.s2}>
+                            {/* <div className={styles.s2}>
                                 <div className={styles.suggestioncard}>
                                     <h2>Recommend activities</h2>
                                     <p>psychology behind decision-making</p>
@@ -420,14 +420,14 @@ const RightSection = () => {
                                     <h2>Recommend activities</h2>
                                     <p>psychology behind decision-making</p>
                                 </div>
-                            </div>
+                            </div> */}
 
                         </div>
                 }
 
                 <div className={styles.bottomsection}>
                     <div className={styles.messagebar}>
-                        <input type='text' placeholder='Message rootAI Bot...'
+                        <input type='text' placeholder='Message rootAI...'
                             onChange={(e) => setMessage(e.target.value)}
                             value={message}
                         />
@@ -467,7 +467,7 @@ const RightSection = () => {
                         }
 
                     </div>
-                    <p>rootAI BOT can make mistakes. Consider checking important information.</p>
+                    <p>rootAI can make mistakes. Consider checking important information.</p>
 
                 </div>
             </div>
